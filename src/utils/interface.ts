@@ -5,8 +5,8 @@ export interface IItem {
   nome: string;
   subtitulo: string;
   descricao:string;
-  preco: number;
-  combo: number;
+  valor_individual: number;
+  valor_combo: number;
   foto: string;
   ativo: boolean;
 }
