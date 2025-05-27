@@ -86,7 +86,7 @@ export default function FormMenu() {
       <Header />
 
       <div className="flex flex-row gap-2">
-        <div className="flex flex-col justify-start items-center w-40 p-4">
+        <div className="flex flex-col justify-start items-center w-48 p-4">
           <Menu />
         </div>
 
