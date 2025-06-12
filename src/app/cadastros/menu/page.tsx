@@ -181,18 +181,30 @@ export default function FormMenu() {
 
           <div className="flex flex-col w-1/2 justify-start items-start p-4">
             <h2 className="text-medium font-semibold align-center w-full mb-4">JÁ CADASTRADOS:</h2>
-            <div className="flex flex-row justify-start items-start gap-2 w-full border-b-[1px] border-gray-300">
-              <span className='font-semibold w-32'>CATEGORIA</span>
-              <span className='font-semibold flex-1'>ITEM</span>
-              <span className='w-6'></span>
-            </div>
-            {cardapio.map(item => (
-              <div key={item.id} className="flex flex-row justify-start items-center gap-2 w-full h-10">
-                <span className='w-32'>{item.categoria}</span>
-                <span className='flex-1'>{item.nome}</span>
-                <button onClick={() => ExcluiItem(item.id)} className='w-6'><FiTrash2 size={20} /></button>
-              </div>
-            ))}
+            <table className="w-full">
+              <thead>
+                <tr className='border-b-[1px] border-gray-900'>
+                  <th className='w-32 text-left'>CATEGORIA</th>
+                  <th className='w-32 text-left'>ITEM</th>
+                  <th className='W-28 text-center'>VALOR</th>
+                  <th className='w-10'></th>
+                </tr>
+              </thead>
+              <tbody>
+                {cardapio.map(item => (
+                <tr key={item.id} className='border-b-[1px] border-gray-300 h-10'>
+                  <td className='w-32'>{item.categoria}</td>
+                  <td className='w-32'>{item.nome}</td>
+                  <td className='w-28 text-center'>{item.valor_individual}</td>
+                  <td className='w-10'>
+                    <button onClick={() => ExcluiItem(item.id)} className='w-10'>
+                      <FiTrash2 size={20} />
+                    </button>
+                  </td>
+                </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
