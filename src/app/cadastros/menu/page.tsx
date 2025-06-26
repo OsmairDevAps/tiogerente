@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Modal from 'react-modal'
 import { useForm } from "react-hook-form";
-import { FiTrash2 } from 'react-icons/fi'
+import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from "zod";
 import {
@@ -19,6 +20,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useCardapio } from '@/hooks/useCardapio';
 import { Switch } from '@/components/ui/switch';
+import { customStylesModal } from '@/utils/modal';
+import AdicionarMenu from './adicionar';
+import EditarMenu from './editar';
 
 type TItem = {
   categoria: string;
@@ -35,6 +39,9 @@ type TItem = {
 export default function FormMenu() {
   const { handleSubmit, register, reset, formState: { errors } } = useForm<TItem>()
   const [cardapio, setCardapio] = useState<IItem[]>([])
+  const [produto, setProduto] = useState<IItem>()
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenEdit, setIsOpenEdit] = useState(false)
   const cardapioDatabase = useCardapio()
 
   async function listarCardapio() {
@@ -44,34 +51,16 @@ export default function FormMenu() {
     }
   }
 
+  function AlteraItem(item: IItem) {
+    setProduto(item)
+    setIsOpenEdit(true)
+  }
+
   async function ExcluiItem(id: number) {
     try {
       await cardapioDatabase.excluir(id)
       await listarCardapio()
       alert('Item excluído com sucesso.')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function frmSubmit(dadosForm: TItem) {
-    const valuesForm = {
-      categoria: dadosForm.categoria,
-      ordem: dadosForm.ordem,
-      nome: dadosForm.nome,
-      subtitulo: dadosForm.subtitulo,
-      descricao: dadosForm.descricao,
-      valor_individual: dadosForm.valor_individual,
-      valor_combo: dadosForm.valor_combo,
-      foto: dadosForm.foto,
-      ativo: dadosForm.ativo,
-    }
-    try {
-      await cardapioDatabase.criar(valuesForm)
-      await listarCardapio()
-      console.log(valuesForm)
-      alert('Item incluido com sucesso.')
-      // reset()
     } catch (error) {
       console.log(error)
     }
@@ -91,95 +80,13 @@ export default function FormMenu() {
         </div>
 
         <div className="flex flex-row gap-2 w-full">
-          <div className="w-1/2 p-4">
-            <h2 className="text-medium font-semibold align-center w-full">CADASTRO DE ITEM DO CARDÁPIO</h2>
 
-            <form onSubmit={handleSubmit(frmSubmit)} className='w-[400px]'>
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="categoria" className="text-medium font-semibold">Categoria:</label>
-                <select
-                  className='file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
-                  {...register('categoria')}
-                >
-                  <option value="crepes">CREPES</option>
-                  <option value="bebidas">BEBIDAS</option>
-                  <option value="vinhos">VINHOS</option>
-                  <option value="especiais">PRATOS ESPECIAIS</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="ordem" className="text-medium font-semibold">Ordem:</label>
-                <Input
-                  id='ordem'
-                  placeholder='Ordem'
-                  {...register('ordem')}
-                />
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="nome" className="text-medium font-semibold">Nome do item:</label>
-                <Input
-                  id='nome'
-                  {...register('nome')}
-                />
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="ordem" className="text-medium font-semibold">Subtitulo:</label>
-                <Input
-                  id="subtitulo"
-                  {...register('subtitulo')}
-                />
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="descricao" className="text-medium font-semibold">Descrição:</label>
-                <Input
-                  id="descricao"
-                  {...register('descricao')}
-                />
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="valor_individual" className="text-medium font-semibold">Preço:</label>
-                <Input
-                  id="valor_individual"
-                  {...register('valor_individual')}
-                />
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="valor_combo" className="text-medium font-semibold">Preço no combo:</label>
-                <Input
-                  id="valor_combo"
-                  {...register('valor_combo')}
-                />
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="foto" className="text-medium font-semibold">Foto:</label>
-                <Input
-                  id="foto"
-                  {...register('foto')}
-                />
-              </div>
-
-              <div className="flex flex-col justify-start items-start gap-2 my-2">
-                <label htmlFor="ativo" className="text-medium font-semibold">Ativo no cardápio?</label>
-                <Switch
-                  id="airplane-mode"
-                  {...register('ativo')}
-                />
-              </div>
-              <Button variant="default" className='mb-4 w-full'>Salvar</Button>
-            </form>
-
-          </div>
-
-          <div className="flex flex-col w-1/2 justify-start items-start p-4">
+          <div className="flex flex-col w-full justify-start items-start p-4">
+            <div className='flex flex-row justify-end bg-slate-200 w-full p-2'>
+              <Button variant='default' onClick={()=>setIsOpen(true)}>
+                + Cadastrar Novo
+              </Button>
+            </div>
             <h2 className="text-medium font-semibold align-center w-full mb-4">JÁ CADASTRADOS:</h2>
             <table className="w-full">
               <thead>
@@ -187,6 +94,7 @@ export default function FormMenu() {
                   <th className='w-32 text-left'>CATEGORIA</th>
                   <th className='w-32 text-left'>ITEM</th>
                   <th className='W-28 text-center'>VALOR</th>
+                  <th className='w-10'></th>
                   <th className='w-10'></th>
                 </tr>
               </thead>
@@ -196,6 +104,11 @@ export default function FormMenu() {
                   <td className='w-32'>{item.categoria}</td>
                   <td className='w-32'>{item.nome}</td>
                   <td className='w-28 text-center'>{item.valor_individual}</td>
+                  <td className='w-10'>
+                    <button onClick={() => AlteraItem(item)} className='w-10 hover:cursor-pointer'>
+                      <FiEdit2 size={20} />
+                    </button>
+                  </td>
                   <td className='w-10'>
                     <button onClick={() => ExcluiItem(item.id)} className='w-10'>
                       <FiTrash2 size={20} />
@@ -208,6 +121,28 @@ export default function FormMenu() {
           </div>
         </div>
 
+        <Modal 
+          style={customStylesModal} 
+          ariaHideApp={false} 
+          isOpen={isOpen}
+        >
+          <AdicionarMenu 
+            listaAtualizar={listarCardapio}
+            onClosePage={setIsOpen}
+          />
+        </Modal>
+
+        <Modal 
+          style={customStylesModal} 
+          ariaHideApp={false} 
+          isOpen={isOpenEdit}
+        >
+          <EditarMenu 
+            listaAtualizar={listarCardapio}
+            onClosePage={setIsOpenEdit}
+            item={produto!}
+          />
+        </Modal>
       </div>
     </div>
   )
