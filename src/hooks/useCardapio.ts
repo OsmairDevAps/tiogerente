@@ -33,8 +33,8 @@ export function useCardapio() {
         nome: data.nome,
         subtitulo: data.subtitulo,
         descricao:data.descricao,
-        preco: Number(data.valor_individual),
-        combo: Number(data.valor_combo),
+        valor_individual: Number(data.valor_individual),
+        valor_combo: Number(data.valor_combo),
         foto: data.foto,
         ativo: Boolean(data.ativo)
       })

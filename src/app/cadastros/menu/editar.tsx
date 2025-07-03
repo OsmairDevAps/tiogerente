@@ -1,9 +1,11 @@
 import { useCardapio } from "@/hooks/useCardapio";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import { NumericFormat } from 'react-number-format'
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { IItem } from "@/utils/interface";
+import { useEffect } from "react";
 
 type Props = {
   onClosePage: (isOpen: boolean) => void;
@@ -24,19 +26,7 @@ type TItem = {
 }
 
 export default function EditarMenu( { onClosePage, listaAtualizar, item }: Props ) {
-  const { handleSubmit, register, reset, formState: { errors } } = useForm<TItem>({
-    defaultValues: {
-      categoria: item?.categoria,
-      ordem: item?.ordem,
-      nome: item?.nome,
-      subtitulo: item?.subtitulo,
-      descricao: item?.descricao,
-      valor_individual: item?.valor_individual,
-      valor_combo: item?.valor_combo,
-      foto: item?.foto,
-      ativo: item?.ativo
-    }
-  })
+  const { handleSubmit, register, reset, control, formState: { errors } } = useForm<TItem>()
   const cardapioDatabase = useCardapio()
 
   function ClosePage() {
@@ -44,18 +34,6 @@ export default function EditarMenu( { onClosePage, listaAtualizar, item }: Props
   }
 
   async function frmSubmit(dadosForm: TItem) {
-    // const valuesForm = {
-    //   id: item.id,
-    //   categoria: dadosForm.categoria,
-    //   ordem: dadosForm.ordem,
-    //   nome: dadosForm.nome,
-    //   subtitulo: dadosForm.subtitulo,
-    //   descricao: dadosForm.descricao,
-    //   valor_individual: dadosForm.valor_individual,
-    //   valor_combo: dadosForm.valor_combo,
-    //   foto: dadosForm.foto,
-    //   ativo: dadosForm.ativo,
-    // }
     try {
       await cardapioDatabase.atualizar({
         id: item.id,
@@ -66,7 +44,7 @@ export default function EditarMenu( { onClosePage, listaAtualizar, item }: Props
         descricao: dadosForm.descricao,
         valor_individual: dadosForm.valor_individual,
         valor_combo: dadosForm.valor_combo,
-        foto: dadosForm.foto,
+        foto: 'sem foto',
         ativo: dadosForm.ativo,
       })
       listaAtualizar()
@@ -76,6 +54,22 @@ export default function EditarMenu( { onClosePage, listaAtualizar, item }: Props
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    if (item) {
+      reset({
+        categoria: item?.categoria,
+        ordem: item?.ordem,
+        nome: item?.nome,
+        subtitulo: item?.subtitulo,
+        descricao: item?.descricao,
+        valor_individual: item?.valor_individual,
+        valor_combo: item?.valor_combo,
+        foto: item?.foto,
+        ativo: item.ativo,
+      })
+    }
+  }, [item])
 
   return (
     <div className="w-full">
@@ -132,33 +126,61 @@ export default function EditarMenu( { onClosePage, listaAtualizar, item }: Props
 
         <div className="flex flex-col justify-start items-start gap-2 my-2">
           <label htmlFor="valor_individual" className="text-medium font-semibold">Preço:</label>
-          <Input
-            id="valor_individual"
-            {...register('valor_individual')}
+          <Controller
+            name="valor_individual"
+            control={control}
+            defaultValue={0}
+            render={({ field }) => (
+            <NumericFormat
+              value={field.value}
+              onValueChange={(values) => field.onChange(values.floatValue)}
+              thousandSeparator="."
+              decimalSeparator=","
+              decimalScale={2}
+              fixedDecimalScale
+              allowNegative={false}
+              customInput={Input}
+              placeholder="0,00"
+            />
+            )}
           />
         </div>
 
         <div className="flex flex-col justify-start items-start gap-2 my-2">
           <label htmlFor="valor_combo" className="text-medium font-semibold">Preço no combo:</label>
-          <Input
-            id="valor_combo"
-            {...register('valor_combo')}
-          />
-        </div>
-
-        <div className="flex flex-col justify-start items-start gap-2 my-2">
-          <label htmlFor="foto" className="text-medium font-semibold">Foto:</label>
-          <Input
-            id="foto"
-            {...register('foto')}
+          <Controller
+            name="valor_combo"
+            control={control}
+            defaultValue={0}
+            render={({ field }) => (
+              <NumericFormat
+                value={field.value}
+                onValueChange={(values) => field.onChange(values.floatValue)}
+                thousandSeparator="."
+                decimalSeparator=","
+                decimalScale={2}
+                fixedDecimalScale
+                allowNegative={false}
+                customInput={Input}
+                placeholder="0,00"
+              />
+            )}
           />
         </div>
 
         <div className="flex flex-col justify-start items-start gap-2 my-2">
           <label htmlFor="ativo" className="text-medium font-semibold">Ativo no cardápio?</label>
-          <Switch
-            id="airplane-mode"
-            {...register('ativo')}
+          <Controller 
+            name="ativo"
+            control={control}
+            defaultValue={false}
+            render={({field}) => (
+              <Switch
+                id="ativo"
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
+            )}
           />
         </div>
         <div className='flex flex-row justify-between items-center gap-2'>

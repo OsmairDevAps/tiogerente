@@ -2,24 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import Modal from 'react-modal'
-import { useForm } from "react-hook-form";
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
-import { zodResolver } from '@hookform/resolvers/zod'
-import z from "zod";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import Header from "@/components/header";
 import Menu from "@/components/menu";
 import { IItem } from '@/utils/interface';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useCardapio } from '@/hooks/useCardapio';
-import { Switch } from '@/components/ui/switch';
 import { customStylesModal } from '@/utils/modal';
 import AdicionarMenu from './adicionar';
 import EditarMenu from './editar';
@@ -37,7 +25,6 @@ type TItem = {
 }
 
 export default function FormMenu() {
-  const { handleSubmit, register, reset, formState: { errors } } = useForm<TItem>()
   const [cardapio, setCardapio] = useState<IItem[]>([])
   const [produto, setProduto] = useState<IItem>()
   const [isOpen, setIsOpen] = useState(false)

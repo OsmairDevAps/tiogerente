@@ -1,5 +1,6 @@
 import { useCardapio } from "@/hooks/useCardapio";
 import { useForm } from "react-hook-form";
+import NumberFormat from 'react-number-format'
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
@@ -117,14 +118,6 @@ export default function AdicionarMenu( { onClosePage, listaAtualizar }: Props ) 
           <Input
             id="valor_combo"
             {...register('valor_combo')}
-          />
-        </div>
-
-        <div className="flex flex-col justify-start items-start gap-2 my-2">
-          <label htmlFor="foto" className="text-medium font-semibold">Foto:</label>
-          <Input
-            id="foto"
-            {...register('foto')}
           />
         </div>
 
