@@ -18,12 +18,7 @@ export interface IFuncionario {
   data_nascimento: string;
   cpf: string;
   telefone: string;
-  endereco: string;
-  bairro: string;
-  cidade: string;
-  uf: string;
-  cep: string;
   funcao: string;
-  chavepix: string;
-  salario: number;
+  pin: string;
+  ativo: boolean;
 }

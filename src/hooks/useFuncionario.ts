@@ -11,14 +11,9 @@ export function useFuncionario() {
           data_nascimento: data.data_nascimento,
           cpf: data.cpf,
           telefone: data.telefone,
-          endereco: data.endereco,
-          bairro: data.bairro,
-          cidade: data.cidade,
-          uf: data.uf,
-          cep: data.cep,
           funcao: data.funcao,
-          chavepix: data.chavepix,
-          salario: Number(data.salario)
+          pin: data.pin,
+          ativo: data.ativo
         })
         return { insertedRow }
     } catch (error) {
@@ -35,14 +30,9 @@ export function useFuncionario() {
         data_nascimento: data.data_nascimento,
         cpf: data.cpf,
         telefone: data.telefone,
-        endereco: data.endereco,
-        bairro: data.bairro,
-        cidade: data.cidade,
-        uf: data.uf,
-        cep: data.cep,
         funcao: data.funcao,
-        chavepix: data.chavepix,
-        salario: Number(data.salario)
+        pin: data.pin,
+        ativo: data.ativo
       }).eq('id', data.id)
     } catch (error) {
       throw error
