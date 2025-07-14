@@ -69,12 +69,12 @@ export default function FormMenu() {
         <div className="flex flex-row gap-2 w-full">
 
           <div className="flex flex-col w-full justify-start items-start p-4">
-            <div className='flex flex-row justify-end bg-slate-200 w-full p-2'>
+            <div className='flex flex-row justify-between items-center bg-slate-200 w-full p-2 mb-4'>
+              <h2 className="text-medium font-semibold w-full">JÁ CADASTRADOS:</h2>
               <Button variant='default' onClick={()=>setIsOpen(true)}>
                 + Cadastrar Novo
               </Button>
             </div>
-            <h2 className="text-medium font-semibold align-center w-full mb-4">JÁ CADASTRADOS:</h2>
             <table className="w-full">
               <thead>
                 <tr className='border-b-[1px] border-gray-900'>

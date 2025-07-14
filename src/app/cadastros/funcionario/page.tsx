@@ -22,7 +22,7 @@ export default function Funcionario() {
   }
 
   function AlteraItem(funcionario: IFuncionario) {
-    alert('Excluido '+ funcionario)
+    alert('Alterar '+ funcionario.ativo)
   }
 
   function ExcluiItem(id: number) {
@@ -45,12 +45,12 @@ export default function Funcionario() {
         <div className="flex flex-row gap-2 w-full">
 
           <div className="flex flex-col w-full justify-start items-start p-4">
-            <div className='flex flex-row justify-end bg-slate-200 w-full p-2'>
+            <div className='flex flex-row justify-between items-center bg-slate-200 w-full p-2 mb-4'>
+              <h2 className="text-medium font-semibold">JÁ CADASTRADOS:</h2>
               <Button variant='default' onClick={()=>setIsModalAddOpen(true)}>
                 + Cadastrar Novo
               </Button>
             </div>
-            <h2 className="text-medium font-semibold align-center w-full mb-4">JÁ CADASTRADOS:</h2>
             <table className="w-full">
               <thead>
                 <tr className='border-b-[1px] border-gray-900'>
@@ -58,7 +58,7 @@ export default function Funcionario() {
                   <th className='w-32 text-left'>NOME</th>
                   <th className='w-32 text-left'>DT. NASC.</th>
                   <th className='w-32 text-left'>FUNÇÃO</th>
-                  <th className='w-32 text-left'>ATIVO</th>
+                  <th className='w-20 text-center'>ATIVO</th>
                   <th className='w-10'></th>
                   <th className='w-10'></th>
                 </tr>
@@ -70,7 +70,7 @@ export default function Funcionario() {
                   <td className='w-32'>{item.nome}</td>
                   <td className='w-32'>{item.data_nascimento}</td>
                   <td className='w-32'>{item.funcao}</td>
-                  <td className='w-32'>{item.ativo}</td>
+                  <td className='w-20 text-center'>{item.ativo ? 'Sim' : 'Não'}</td>
                   <td className='w-10'>
                     <button onClick={() => AlteraItem(item)} className='w-10 hover:cursor-pointer'>
                       <FiEdit2 size={20} />
