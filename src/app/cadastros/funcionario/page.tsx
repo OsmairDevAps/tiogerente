@@ -22,32 +22,32 @@ export default function Funcionario() {
   }
 
   function AlteraItem(funcionario: IFuncionario) {
-    alert('Alterar '+ funcionario.ativo)
+    alert('Alterar ' + funcionario.ativo)
   }
 
   function ExcluiItem(id: number) {
-    alert('Excluido '+ id)
+    alert('Excluido ' + id)
   }
 
-  useEffect(()=> {
+  useEffect(() => {
     listarFuncionarios()
-  },[])
+  }, [])
 
   return (
     <div className="flex flex-col w-full">
       <Header />
-    
-      <div className="flex flex-row gap-2">
-        <div className="flex flex-col justify-start items-center w-48 p-4">
+
+      <div className="flex flex-row">
+        <div className="flex flex-col justify-start items-center w-48 p-2">
           <Menu />
         </div>
-    
+
         <div className="flex flex-row gap-2 w-full">
 
-          <div className="flex flex-col w-full justify-start items-start p-4">
+          <div className="flex flex-col w-full justify-start items-start p-2">
             <div className='flex flex-row justify-between items-center bg-slate-200 w-full p-2 mb-4'>
               <h2 className="text-medium font-semibold">JÁ CADASTRADOS:</h2>
-              <Button variant='default' onClick={()=>setIsModalAddOpen(true)}>
+              <Button variant='default' onClick={() => setIsModalAddOpen(true)}>
                 + Cadastrar Novo
               </Button>
             </div>
@@ -65,35 +65,35 @@ export default function Funcionario() {
               </thead>
               <tbody>
                 {funcionarios.map(item => (
-                <tr key={item.id} className='border-b-[1px] border-gray-300 h-10'>
-                  <td className='w-32'>{item.cpf}</td>
-                  <td className='w-32'>{item.nome}</td>
-                  <td className='w-32'>{item.data_nascimento}</td>
-                  <td className='w-32'>{item.funcao}</td>
-                  <td className='w-20 text-center'>{item.ativo ? 'Sim' : 'Não'}</td>
-                  <td className='w-10'>
-                    <button onClick={() => AlteraItem(item)} className='w-10 hover:cursor-pointer'>
-                      <FiEdit2 size={20} />
-                    </button>
-                  </td>
-                  <td className='w-10'>
-                    <button onClick={() => ExcluiItem(item.id)} className='w-10'>
-                      <FiTrash2 size={20} />
-                    </button>
-                  </td>
-                </tr>
+                  <tr key={item.id} className='border-b-[1px] border-gray-300 h-10'>
+                    <td className='w-32'>{item.cpf}</td>
+                    <td className='w-32'>{item.nome}</td>
+                    <td className='w-32'>{item.data_nascimento}</td>
+                    <td className='w-32'>{item.funcao}</td>
+                    <td className='w-20 text-center'>{item.ativo ? 'Sim' : 'Não'}</td>
+                    <td className='w-10'>
+                      <button onClick={() => AlteraItem(item)} className='w-10 hover:cursor-pointer'>
+                        <FiEdit2 size={20} />
+                      </button>
+                    </td>
+                    <td className='w-10'>
+                      <button onClick={() => ExcluiItem(item.id)} className='w-10'>
+                        <FiTrash2 size={20} />
+                      </button>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
 
-        <Modal 
-          style={customStylesModal} 
-          ariaHideApp={false} 
+        <Modal
+          style={customStylesModal}
+          ariaHideApp={false}
           isOpen={isModalAddOpen}
         >
-          <AdicionarFuncionario 
+          <AdicionarFuncionario
             listaAtualizar={listarFuncionarios}
             onClosePage={setIsModalAddOpen}
           />

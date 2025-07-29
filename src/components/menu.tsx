@@ -3,7 +3,7 @@ import { FiHome, FiLogOut, FiSave } from "react-icons/fi";
 
 export default function Menu() {
   return (
-    <div className="flex flex-col justify-between w-full h-full bg-amber-300">
+    <div className="flex flex-col justify-between h-full">
       <div className="flex flex-col gap-4">
         <div className="w-full hover:bg-green-50 p-2 items-center font-semibold bg-slate-200 rounded">
           <Link href='/' className="flex flex-row gap-2"><FiHome size={20} color="#000000" />HOME</Link>
