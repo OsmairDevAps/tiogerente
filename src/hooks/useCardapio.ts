@@ -8,6 +8,7 @@ export function useCardapio() {
       .from('cardapios')
       .insert({
         categoria: data.categoria,
+        subcategoria: data.subcategoria,
         ordem: Number(data.ordem),
         nome: data.nome,
         subtitulo: data.subtitulo,
@@ -29,6 +30,7 @@ export function useCardapio() {
       .from('cardapios')
       .update({
         categoria: data.categoria,
+        subcategoria: data.subcategoria,
         ordem: Number(data.ordem),
         nome: data.nome,
         subtitulo: data.subtitulo,
@@ -60,6 +62,8 @@ export function useCardapio() {
       const { data } = await supabase 
         .from('cardapios')
         .select('*')
+        .order('categoria', {ascending: true})
+        .order('subcategoria', {ascending: true})
         .order('nome', {ascending: true})
       return data
     } catch (error) {

@@ -14,6 +14,7 @@ import EditarMenu from './editar';
 
 type TItem = {
   categoria: string;
+  subcategoria: string;
   ordem: number;
   nome: string;
   subtitulo: string;
@@ -78,7 +79,9 @@ export default function FormMenu() {
             <table className="w-full">
               <thead>
                 <tr className='border-b-[1px] border-gray-900'>
-                  <th className='w-32 text-left'>CATEGORIA</th>
+                  <th className='w-12 text-left'>CATEGORIA</th>
+                  <th className='w-5 text-left'>ATIVO</th>
+                  <th className='w-22 text-left'>SUB-CATEGORIA</th>
                   <th className='w-32 text-left'>ITEM</th>
                   <th className='W-28 text-center'>VALOR</th>
                   <th className='w-10'></th>
@@ -88,7 +91,9 @@ export default function FormMenu() {
               <tbody>
                 {cardapio.map(item => (
                   <tr key={item.id} className='border-b-[1px] border-gray-300 h-10'>
-                    <td className='w-32'>{item.categoria}</td>
+                    <td className='w-12'>{item.categoria}</td>
+                    <td className='w-5'>{item.ativo}</td>
+                    <td className='w-22'>{item.subcategoria}</td>
                     <td className='w-32'>{item.nome}</td>
                     <td className='w-28 text-center'>{item.valor_individual}</td>
                     <td className='w-10'>

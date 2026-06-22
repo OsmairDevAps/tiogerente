@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/button';
 
 type Props = {
   onClosePage: (isOpen: boolean) => void;
-  listaAtualizar: ()=>void;
+  listaAtualizar: () => void;
 }
 type TItem = {
   categoria: string;
+  subcategoria: string;
   ordem: number;
   nome: string;
   subtitulo: string;
@@ -21,7 +22,7 @@ type TItem = {
   ativo: boolean;
 }
 
-export default function AdicionarMenu( { onClosePage, listaAtualizar }: Props ) {
+export default function AdicionarMenu({ onClosePage, listaAtualizar }: Props) {
   const { handleSubmit, register, reset, formState: { errors } } = useForm<TItem>()
   const cardapioDatabase = useCardapio()
 
@@ -32,6 +33,7 @@ export default function AdicionarMenu( { onClosePage, listaAtualizar }: Props ) 
   async function frmSubmit(dadosForm: TItem) {
     const valuesForm = {
       categoria: dadosForm.categoria,
+      subcategoria: dadosForm.subcategoria,
       ordem: dadosForm.ordem,
       nome: dadosForm.nome,
       subtitulo: dadosForm.subtitulo,
@@ -56,30 +58,43 @@ export default function AdicionarMenu( { onClosePage, listaAtualizar }: Props ) 
     <div className="w-full">
       <h2 className="text-medium font-semibold align-center w-full">CADASTRO DE ITEM DO CARDÁPIO</h2>
 
-      <form onSubmit={handleSubmit(frmSubmit)} className='w-[400px]'>
-        <div className="flex flex-col justify-start items-start gap-2 my-2">
-          <label htmlFor="categoria" className="text-medium font-semibold">Categoria:</label>
-          <select
-            className='file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-  "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-  "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
-            {...register('categoria')}
-          >
-            <option value="CREPES">CREPES</option>
-            <option value="BEBIDAS">BEBIDAS</option>
-            <option value="VINHOS">VINHOS</option>
-            <option value="ESPECIAIS">PRATOS ESPECIAIS</option>
-          </select>
+      <form onSubmit={handleSubmit(frmSubmit)} className='w-[600px]'>
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col justify-start items-start gap-2 my-2">
+            <label htmlFor="categoria" className="text-medium font-semibold">Categoria:</label>
+            <select
+              className='file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+              "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+              "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
+              {...register('categoria')}
+            >
+              <option value="CREPES">CREPES</option>
+              <option value="BEBIDAS">BEBIDAS</option>
+              <option value="VINHOS">VINHOS</option>
+              <option value="ESPECIAIS">PRATOS ESPECIAIS</option>
+            </select>
+          </div>
+          <div className="flex flex-col justify-start items-start gap-2 my-2">
+            <label htmlFor="categoria" className="text-medium font-semibold">Sub - Categoria:</label>
+            <select
+              className='file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+              "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+              "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive'
+              {...register('subcategoria')}
+            >
+              <option value="CREPES SALGADOS">CREPES SALGADOS</option>
+              <option value="CREPES DOCES">CREPES DOCES</option>
+              <option value="BEBIDAS ALCOOLICAS">BEBIDAS ALCOÓLICAS</option>
+              <option value="BEBIDAS NAO ALCOOLICAS">BEBIDAS NÃO ALCOÓLICAS</option>
+              <option value="Champagne e Espumantes">Champagne e Espumantes</option>
+              <option value="Vinhos Brancos">Vinhos Brancos</option>
+              <option value="Vinhos Rosés">Vinhos Rosés</option>
+              <option value="Vinhos Tintos">Vinhos Tintos</option>
+              <option value="Taxa de Rolha">Taxa de Rolha</option>
+            </select>
+          </div>
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-2 my-2">
-          <label htmlFor="ordem" className="text-medium font-semibold">Ordem:</label>
-          <Input
-            id='ordem'
-            placeholder='Ordem'
-            {...register('ordem')}
-          />
-        </div>
 
         <div className="flex flex-col justify-start items-start gap-2 my-2">
           <label htmlFor="nome" className="text-medium font-semibold">Nome do item:</label>
@@ -105,29 +120,49 @@ export default function AdicionarMenu( { onClosePage, listaAtualizar }: Props ) 
           />
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-2 my-2">
-          <label htmlFor="valor_individual" className="text-medium font-semibold">Preço:</label>
-          <Input
-            id="valor_individual"
-            {...register('valor_individual')}
-          />
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col justify-start items-start gap-2 my-2">
+            <label htmlFor="valor_individual" className="text-medium font-semibold">Preço:</label>
+            <Input
+              id="valor_individual"
+              {...register('valor_individual')}
+            />
+          </div>
+          <div className="flex flex-col justify-start items-start gap-2 my-2">
+            <label htmlFor="valor_combo" className="text-medium font-semibold">Preço no combo:</label>
+            <Input
+              id="valor_combo"
+              {...register('valor_combo')}
+            />
+          </div>
+          <div className="flex flex-col justify-start items-start gap-2 my-2">
+            <label htmlFor="valor_combo" className="text-medium font-semibold">URL foto:</label>
+            <Input
+              id="foto"
+              {...register('foto')}
+              placeholder="https://..."
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-2 my-2">
-          <label htmlFor="valor_combo" className="text-medium font-semibold">Preço no combo:</label>
-          <Input
-            id="valor_combo"
-            {...register('valor_combo')}
-          />
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-col justify-start items-start gap-2 my-2">
+            <label htmlFor="ativo" className="text-medium font-semibold">Ativo no cardápio?</label>
+            <Switch
+              id="airplane-mode"
+              {...register('ativo')}
+            />
+          </div>
+          <div className="flex flex-col justify-start items-start gap-2 my-2">
+            <label htmlFor="ordem" className="text-medium font-semibold">Ordem do item no menu:</label>
+            <Input
+              id='ordem'
+              placeholder='Ordem'
+              {...register('ordem')}
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-2 my-2">
-          <label htmlFor="ativo" className="text-medium font-semibold">Ativo no cardápio?</label>
-          <Switch
-            id="airplane-mode"
-            {...register('ativo')}
-          />
-        </div>
         <div className='flex flex-row justify-between items-center gap-2'>
           <Button variant="default" className='mb-4 w-1/2 hover:cursor-pointer'>Salvar</Button>
           <Button variant="destructive" className='mb-4 w-1/2 hover:cursor-pointer' onClick={ClosePage}>Fechar</Button>

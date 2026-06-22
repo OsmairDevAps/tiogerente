@@ -3,6 +3,7 @@ import { string } from "zod";
 export interface IItem {
   id: number;
   categoria: string;
+  subcategoria: string;
   ordem: number;
   nome: string;
   subtitulo: string;
